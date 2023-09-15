@@ -94,10 +94,10 @@ public class Nfc {
                 Log.d(TAG, "Start Write NFC");
                 try {
                     for (int i = startBlock; i <= endBlock; i++) {
-                        if(!authenticationByKey(1, i)) {
+                        if(!authenticationByKey(0, i)) {
                             Log.e(TAG, "Não autenticado");
-//                            promiseNFC.onError("Falhou ao autenticar no NFC");
-//                            return;
+                            promiseNFC.onError("Falhou ao autenticar no NFC");
+                            return;
                         }
 
 //                        byte[] data = writeData[i - startBlock];

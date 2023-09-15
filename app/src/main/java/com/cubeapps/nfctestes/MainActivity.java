@@ -146,13 +146,14 @@ public class MainActivity extends AppCompatActivity {
 
     private void onWrite() {
         byte[] keyA = getKey(KEY_A);
-        byte[] keyB = getKey(KEY_B);
+//        byte[] keyB = getKey(KEY_B);
+        byte[] keyB = ByteUtils.HexToByteArr("B8B25A8B9E52");
         Nfc nfc = new Nfc(keyA, keyB);
         int start = Integer.parseInt(edInitBlock.getText().toString());
         int end = Integer.parseInt(edFinalBlock.getText().toString());
 
         byte[][] writeData = new byte[][] {
-                ByteUtils.HexToByteArr("22 22 22 22 22 22 22 22 22 22 22 22 22 22 22 22".replaceAll(" ", "")),
+                ByteUtils.HexToByteArr("00 00 00 00 00 00 00 00 F2 B3 01 B7 38 17 78 C8".replaceAll(" ", "")),
 //                ByteUtils.HexToByteArr("22 22 22 22 22 22 22 22 22 22 22 22 22 22 22 22".replaceAll(" ", "")),
 //                ByteUtils.HexToByteArr("22 22 22 22 22 22 22 22 22 22 22 22 22 22 22 22".replaceAll(" ", "")),
 //                ByteUtils.HexToByteArr((getStrNewKey(KEY_A) + "08 77 8F FF" + getStrNewKey(KEY_B)).replaceAll(" ", "")),
