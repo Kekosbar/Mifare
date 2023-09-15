@@ -10,6 +10,9 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven {
+            url = uri("https://github.com/pagseguro/PlugPagServiceWrapper/raw/master")
+        }
     }
 }
 

@@ -32,7 +32,8 @@ android {
 }
 
 dependencies {
-    implementation(files("libs/PayLib-release-1.4.43.aar"))
+    implementation ("br.com.uol.pagseguro.plugpagservice.wrapper:wrapper:1.25.0")
+    implementation ("org.jetbrains.kotlin:kotlin-stdlib:1.3.21")
 
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.9.0")

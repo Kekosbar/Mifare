@@ -14,15 +14,13 @@ import com.cubeapps.nfctestes.nfc.PromiseNFC;
 import com.cubeapps.nfctestes.nfc.PromiseNfcUUid;
 import com.cubeapps.nfctestes.utils.ByteUtils;
 
-import java.util.Arrays;
-
-import sunmi.paylib.SunmiPayKernel;
+import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPag;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final int KEY_A = 0;
     private static final int KEY_B = 1;
-    private SunmiPayKernel mSMPayKernel = null;
+    private PlugPag plugPag;
     private EditText edInitBlock;
     private EditText edFinalBlock;
     private Spinner spKeysA;
@@ -50,29 +48,9 @@ public class MainActivity extends AppCompatActivity {
 //        byte b = (byte) 0xff;
 //        Log.d(Nfc.TAG, "Byte: " + b);
 //        Log.d(Nfc.TAG, "Hex: " + ByteUtils.Byte2Hex(b));
+        plugPag = new PlugPag(this);
 
-        initSdk();
         initViews();
-    }
-
-    private void initSdk() {
-        mSMPayKernel = SunmiPayKernel.getInstance();
-        mSMPayKernel.initPaySDK(this, new SunmiPayKernel.ConnectCallback() {
-            @Override
-            public void onConnectPaySDK() {
-                try {
-                    BaseApp.mReadCardOptV2 = mSMPayKernel.mReadCardOptV2;
-                    BaseApp.mEMVOptV2 = mSMPayKernel.mEMVOptV2;
-                    Log.d(Nfc.TAG, "SDK INIT SUCCESSFUL");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-            @Override
-            public void onDisconnectPaySDK() {
-                Log.e(Nfc.TAG, "SDK DISCONNECT");
-            }
-        });
     }
 
     private void initViews() {
@@ -102,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
     private void onReadUuid() {
         byte[] keyA = getKey(KEY_A);
         byte[] keyB = getKey(KEY_B);
-        Nfc nfc = new Nfc(keyA, keyB);
+        Nfc nfc = new Nfc(plugPag, keyA, keyB);
         nfc.readNFCUUID(new PromiseNfcUUid() {
             @Override
             public void onSuccess(byte[] bytes) {
@@ -122,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
         byte[] keyB = getKey(KEY_B);
 //        Log.d(Nfc.TAG, "Key A: " + Arrays.toString(keyA));
 //        Log.d(Nfc.TAG, "Key B: " + Arrays.toString(keyB));
-        Nfc nfc = new Nfc(keyA, keyB);
+        Nfc nfc = new Nfc(plugPag, keyA, keyB);
         int start = Integer.parseInt(edInitBlock.getText().toString());
         int end = Integer.parseInt(edFinalBlock.getText().toString());
         nfc.read(start, end, new PromiseNFC() {
@@ -148,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
         byte[] keyA = getKey(KEY_A);
 //        byte[] keyB = getKey(KEY_B);
         byte[] keyB = ByteUtils.HexToByteArr("B8B25A8B9E52");
-        Nfc nfc = new Nfc(keyA, keyB);
+        Nfc nfc = new Nfc(plugPag, keyA, keyB);
         int start = Integer.parseInt(edInitBlock.getText().toString());
         int end = Integer.parseInt(edFinalBlock.getText().toString());
 
